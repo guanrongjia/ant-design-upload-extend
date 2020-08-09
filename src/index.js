@@ -15,9 +15,12 @@ export default () => {
       accept: "image/*,.pdf,.xls,.xlsx,.ppt,.pptx,.doc,.docx",
       listType: "picture-card",
       className: "avatar-uploader",
-      multiple: true
+      multiple: true,
+
     }}
+    uploadTitle="请选择文件或图片"
     fileLimit={8 * 1024 * 1024} // 8M
+    onSetFileList={(currentFileList) => { console.log('currentFileList', currentFileList) }}
   />
 }
 

@@ -116,10 +116,13 @@ class Uploader extends PureComponent {
 
   // 删除文件
   handleRemove = file => {
+    const { onSetFileList } = this.props;
     const { fileList } = this.state;
     const newFileList = cloneDeep(fileList);
     remove(newFileList, fileItem => fileItem.uid === file.uid);
-    this.setState({ fileList: newFileList });
+    this.setState({ fileList: newFileList }, () => {
+      onSetFileList && onSetFileList(newFileList);
+    });
   };
 
   downloadIamge = (imgsrc, name) => {
@@ -157,7 +160,7 @@ class Uploader extends PureComponent {
   };
 
   beforeUpload = file => {
-    const { ossConfig, fileLimit = 8 * 1024 * 1024 } = this.props;
+    const { ossConfig, fileLimit = 8 * 1024 * 1024, onSetFileList } = this.props;
     if (file.size > fileLimit) {
       message.error('不能上传超过 8MB 的文件!');
       return false;
@@ -170,18 +173,21 @@ class Uploader extends PureComponent {
       this.uploadToOss(file)
         .then(data => {
           const { fileList } = this.state;
+          const newFileList = cloneDeep(fileList);
           let url = `https://${ossConfig.bucket}.panwecat.com/${data.name}`;
           if (this.judgeFileType(url) === 'office') {
             url = `https://${ossConfig.bucket}.${ossConfig.region}.aliyuncs.com/${data.name}`;
           }
-          fileList.push({
+          newFileList.push({
             uid: data.res.headers['x-oss-request-id'],
             name: data.fileName,
             status: data.res.statusCode === 200 ? 'done' : 'error',
             response: data.res.statusCode === 200 ? '' : '上传失败', // custom error message to show
             url,
           });
-          this.setState({ fileList });
+          this.setState({ fileList: newFileList }, () => {
+            onSetFileList && onSetFileList(newFileList);
+          });
         })
         .then(() => {
           this.setState({ updateLoading: false });
@@ -194,15 +200,14 @@ class Uploader extends PureComponent {
   };
 
   render() {
+    const { antUploadParams, uploadTitle = '选择文件或图片' } = this.props;
+    const { fileList, updateLoading, previewVisible, previewImage, previewTitle } = this.state;
     const uploadButton = (
       <div>
         <PlusOutlined />
-        <div className="ant-upload-text">选择文件或图片</div>
+        <div className="ant-upload-text">{uploadTitle}</div>
       </div>
     );
-
-    const { antUploadParams } = this.props;
-    const { fileList, updateLoading, previewVisible, previewImage, previewTitle } = this.state;
 
     return (
       <div>
@@ -229,7 +234,6 @@ class Uploader extends PureComponent {
               }
             }}
             beforeUpload={this.beforeUpload}
-            // onChange={this.handleChange}
             onPreview={this.handlePreview}
             fileList={fileList.map(fileObj => {
               if (fileObj.url && this.judgeFileType(fileObj.url) === 'image') {

@@ -27,7 +27,11 @@ npm install ant-design-upload-extend
         antUploadParams={{accept: "image/*,.pdf,.xls,.xlsx,.ppt,.pptx,.doc,.docx",
             listType:"picture-card",
             className:"avatar-uploader",
-            multiple:true}} />
+            multiple:true}} 
+        uploadTitle="请选择文件或图片"
+        fileLimit={8 * 1024 * 1024} // 8M
+        onSetFileList={(currentFileList) => { console.log('currentFileList', currentFileList) }}
+    />
 ```
 
 ## props
@@ -38,6 +42,9 @@ npm install ant-design-upload-extend
 | ossConfig       | oss 相关信息                   |
 | antUploadParams | ant design upload 的所有参数， | 注意  accept只允许如下值，因为涉及到预览和直接下载: "image/*,.pdf,.xls,.xlsx,.ppt,.pptx,.doc,.docx",                             |
 | fileLimit       | 文件大小限制                   | 默认值 8* 1024*1024， 8M                                                                                                         |
+|uploadTitle| 上传文件按钮的文案|默认为 请选择文件或图片|
+|onSetFileList |在文件上传后，删除后，返回最新的文件列表|结构为[{uid:'', name: '', status: 'done' or 'error', response: '' or '上传失败',  url,}]
+
 ## LICENSE
 
 MIT
