@@ -1,0 +1,55 @@
+{
+  "name": "ant-design-upload-extend",
+  "version": "1.0.3",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "authors": {
+    "name": "",
+    "email": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:guanrongjia/ant-design-upload-extend.git"
+  },
+  "scripts": {
+    "dev": "father doc dev",
+    "build": "father build"
+  },
+  "peerDependencies": {
+    "react": "16.x"
+  },
+  "devDependencies": {
+    "father": "^2.16.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ant design",
+    "upload",
+    "picture",
+    "pdf",
+    "xls",
+    "xlsx",
+    "ppt",
+    "pptx",
+    "doc",
+    "docx"
+  ],
+  "author": "guanrongjia",
+  "bugs": {
+    "url": "https://github.com/guanrongjia/ant-design-upload-extend/issues"
+  },
+  "homepage": "https://github.com/guanrongjia/ant-design-upload-extend/blob/master/README.md",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.0.0-alpha.19",
+    "ali-oss": "^6.10.0",
+    "antd": "^4.5.2",
+    "lodash": "^4.17.19",
+    "moment": "^2.27.0",
+    "proper-url-join": "^2.1.1",
+    "web-downloadfile": "^0.0.1"
+  }
+}
